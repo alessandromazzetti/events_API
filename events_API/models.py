@@ -15,7 +15,7 @@ class Event(models.Model):
         return self.total_seats - booked
 
     def __str__(self):
-        return f"{self.title} ({self.date.strftime('%Y-%m-%d')})"
+        return f"{self.name} ({self.date.strftime('%Y-%m-%d')})"
 
 # Reservation
 class Reservation(models.Model):

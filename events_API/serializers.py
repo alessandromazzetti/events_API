@@ -9,7 +9,7 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['id', 'title', 'description', 'date', 'total_seats', 'available_seats']
+        fields = ['id', 'name', 'description', 'date', 'total_seats', 'available']
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reservation
-        fields = ['id', 'event', 'event_detail', 'status', 'created_at']
+        fields = ['id', 'event', 'event_details', 'status', 'created_at']
         read_only_fields = ['status']
 
     def validate(self, data):
