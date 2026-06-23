@@ -27,5 +27,5 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
     # Includes urls contained in events_API/urls.py
-    path('api/', include('api.urls')),
+    path('api/', include('events_API.urls')),
 ]

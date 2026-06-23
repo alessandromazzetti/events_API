@@ -1,7 +1,21 @@
-from asyncio import Event
-
 from django.db import models
 from django.contrib.auth.models import User
+
+# Event
+class Event(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    date = models.DateField()
+    total_seats = models.PositiveIntegerField()
+
+    # Find the available seats, @ lets us call the function without ()
+    @property
+    def available_seats(self):
+        booked = self.reservations.filter(status='CONFIRMED').count()
+        return self.total_seats - booked
+
+    def __str__(self):
+        return f"{self.title} ({self.date.strftime('%Y-%m-%d')})"
 
 # Reservation
 class Reservation(models.Model):
@@ -19,19 +33,3 @@ class Reservation(models.Model):
     # Shows reservations in a formatted string
     def __str__(self):
         return f'{self.user.username} - {self.event} - {self.status}'
-
-# Event
-class Event(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    date = models.DateField()
-    total_seats = models.PositiveIntegerField()
-
-    # Find the available seats, @ lets us call the function without ()
-    @property
-    def available_seats(self):
-        booked = self.reservations.filter(status='CONFIRMED').count()
-        return self.total_seats - booked
-
-    def __str__(self):
-        return f"{self.title} ({self.date.strftime('%Y-%m-%d')})"
