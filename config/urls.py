@@ -16,8 +16,16 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # Redirects to the admin page
+    path('admin/', admin.site.urls),
+
+    # Returns a token used by the app to show the correspondent user is logged in
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+
+    # Includes urls contained in events_API/urls.py
+    path('api/', include('api.urls')),
 ]
