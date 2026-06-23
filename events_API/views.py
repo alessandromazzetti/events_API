@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from .models import Event, Reservation
 from .serializers import EventSerializer, ReservationSerializer
 from .permissions import IsOwner
+from rest_framework.exceptions import ValidationError
 
 
 class EventListAPIView(generics.ListAPIView):
@@ -26,6 +27,12 @@ class ReservationListCreateAPIView(generics.ListCreateAPIView):
         return Reservation.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
+        event = serializer.validated_data['event']
+        user = self.request.user
+
+        if Reservation.objects.filter(event=event, user=user).exists():
+            raise ValidationError('Reservation already exists')
+
         serializer.save(user=self.request.user)
 
 # New view for cancelling (not a standard CRUD method, need to keep info about cancelled reservations)
