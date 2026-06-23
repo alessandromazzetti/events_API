@@ -26,6 +26,9 @@ urlpatterns = [
     # Returns a token used by the app to show the correspondent user is logged in
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 
+    # Makes login and log out available
+    path('api-auth/', include('rest_framework.urls')),
+
     # Includes urls contained in events_API/urls.py
     path('api/', include('events_API.urls')),
 ]
