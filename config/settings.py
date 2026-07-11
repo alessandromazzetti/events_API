@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'accounts',
     'events_API',
     'rest_framework',
     'rest_framework.authtoken',
@@ -119,4 +120,4 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-AUTH_USER_MODEL = 'events_API.CustomUser'
+AUTH_USER_MODEL = 'accounts.CustomUser'
