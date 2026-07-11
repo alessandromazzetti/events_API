@@ -95,7 +95,7 @@ The API will be available at `http://127.0.0.1:8000/api/`.
 
 ## ☁️ Online Deployment Link
 The project is live and deployed on PythonAnywhere:
-🚀 **Live URL:** [http://mazzettialessandro.eu.pythonanywhere.com/api/](http://mazzettialessandro.eu.pythonanywhere.com/api/)
+🚀 **Live URL:** [[http://mazzettialessandro.eu.pythonanywhere.com/api/](http://mazzettialessandro.eu.pythonanywhere.com/api/)](https://mazzettialessandro.eu.pythonanywhere.com/)
 
 ---
 
