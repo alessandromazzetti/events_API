@@ -1,8 +1,14 @@
 # 🎟️ Events API Project
 
-**Student Name:** Alessandro Mazzetti  
-**Project Type:** REST API  
-**Frameworks Used:** Django & Django REST Framework (DRF)  
+**Student Name:** Alessandro Mazzetti
+
+---
+
+## 📌 Project Type
+**REST API**
+
+## 🛠️ Framework Used
+**Django** & **Django REST Framework (DRF)**
 
 ---
 
@@ -31,6 +37,47 @@ This project is a secure, decoupled RESTful API designed to manage event ticketi
 
 ---
 
+## 💻 Local Installation Instructions
+
+Follow these steps to run the project on your local machine.
+
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd events_API
+```
+
+### 2. Create and activate a virtual environment
+```bash
+python -m venv venv
+
+# On macOS / Linux
+source venv/bin/activate
+
+# On Windows
+venv\Scripts\activate
+```
+
+### 3. Install the requirements
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply database migrations
+> Not required if you're using the included `db.sqlite3` file (see next section), since it already contains the applied schema. Run this step only if you start from a clean database.
+```bash
+python manage.py migrate
+```
+
+### 5. Start the development server
+```bash
+python manage.py runserver
+```
+
+The API will be available at `http://127.0.0.1:8000/api/`.
+
+---
+
 ## 🗄️ Database Information & Demo Accounts
 
 * **Database File:** `db.sqlite3`
@@ -40,12 +87,14 @@ This project is a secure, decoupled RESTful API designed to manage event ticketi
 | Username | Password | Role | Allowed Permissions |
 | :--- | :--- | :--- | :--- |
 | **admin** | `admin` | Superuser / Admin | Full CRUD on Admin Panel, view all reservations. |
-| **amazzetti** | `bananabread` | Regular User | Book tickets, view/cancel own reservations only. |
+| **bbianchi** | `password123` | Organizer | Create events, book tickets, view/cancel own reservations only. |
+| **frossi** | `password123` | Regular | Book tickets, view/cancel own reservations only. |
+| **lverdi** | `password123` | Regular | Book tickets, view/cancel own reservations only. |
 
 ---
 
 ## ☁️ Online Deployment Link
-The project is live and deployed on PythonAnywhere:  
+The project is live and deployed on PythonAnywhere:
 🚀 **Live URL:** [http://mazzettialessandro.eu.pythonanywhere.com/api/](http://mazzettialessandro.eu.pythonanywhere.com/api/)
 
 ---
@@ -73,4 +122,44 @@ The project is live and deployed on PythonAnywhere:
 ### 1. Login Command (Obtain Token)
 To interact with protected endpoints, you must request an authentication token using your credentials:
 ```bash
-http POST [http://mazzettialessandro.eu.pythonanywhere.com/api-token-auth/](http://mazzettialessandro.eu.pythonanywhere.com/api-token-auth/) username="amazzetti" password="bananabread"
+http POST http://mazzettialessandro.eu.pythonanywhere.com/api-token-auth/ username="amazzetti" password="bananabread"
+```
+Response:
+```json
+{
+    "token": "99442981abc345..."
+}
+```
+
+### 2. Using the Token
+Every request to a protected endpoint must include the token in the `Authorization` header, using the `Token` scheme:
+```bash
+http GET http://mazzettialessandro.eu.pythonanywhere.com/api/reservations/ "Authorization:Token 99442981abc345..."
+```
+
+### 3. Example Commands for the Main Operations
+
+**Browse all events (public, no auth needed):**
+```bash
+http GET http://mazzettialessandro.eu.pythonanywhere.com/api/events/
+```
+
+**View a single event's details (public):**
+```bash
+http GET http://mazzettialessandro.eu.pythonanywhere.com/api/events/1/
+```
+
+**Book a ticket (authenticated):**
+```bash
+http POST http://mazzettialessandro.eu.pythonanywhere.com/api/reservations/ "Authorization:Token 99442981abc345..." event=1
+```
+
+**View my own reservations (authenticated):**
+```bash
+http GET http://mazzettialessandro.eu.pythonanywhere.com/api/reservations/ "Authorization:Token 99442981abc345..."
+```
+
+**Cancel a reservation (authenticated, owner only):**
+```bash
+http POST http://mazzettialessandro.eu.pythonanywhere.com/api/reservations/5/cancel/ "Authorization:Token 99442981abc345..."
+```
