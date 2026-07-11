@@ -1,23 +1,36 @@
 from rest_framework import generics, permissions, status
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Event, Reservation
+from .permissions import IsOwner, IsOrganizer
 from .serializers import EventSerializer, ReservationSerializer
-from .permissions import IsOwner
-from rest_framework.exceptions import ValidationError
 
 
-class EventListAPIView(generics.ListAPIView):
+class EventListAPIView(generics.ListCreateAPIView):
     queryset = Event.objects.all().order_by('date')
     serializer_class = EventSerializer
-    permission_classes = [permissions.AllowAny]
+
+    def get_permissions(self):
+        # Safe methods = read only methods, so everyone is allowed
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.AllowAny()]
+
+        # If the request is not safe this checks that the user who has made it is an organizer
+        return [IsOrganizer()]
 
 
-class EventDetailAPIView(generics.RetrieveAPIView):
+class EventDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
-    permission_classes = [permissions.AllowAny]
 
+    def get_permissions(self):
+        # Safe methods = read only methods, so everyone is allowed
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.AllowAny()]
+
+        # If the request is not safe this checks that the user who has made it is an organizer
+        return [IsOrganizer()]
 
 class ReservationListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ReservationSerializer
@@ -56,3 +69,6 @@ class ReservationCancelAPIView(APIView):
         reservation.status = 'CANCELLED'
         reservation.save()
         return Response({"message": "Cancelled"})
+
+
+

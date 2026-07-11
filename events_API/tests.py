@@ -1,18 +1,19 @@
 import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import Event, Reservation
 
+User = get_user_model()
 
 class EventAPITestCase(APITestCase):
 
     def setUp(self):
-        # 1. Create two test users
+        # Create two test users
         self.user_admin = User.objects.create_superuser(username="admin", password="password123")
         self.user_mario = User.objects.create_user(username="mario", password="password123")
 
-        # 2. Create a test event
+        # Create a test event
         self.event = Event.objects.create(
             name="Festival of the Sun",
             description="Festival curated by Rick Rubin",
